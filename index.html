@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Workspace - 智能工作空间</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #0f1419;
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .nav-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #fff;
+        }
+        
+        .nav-cta {
+            background: #fff;
+            color: #0f1419;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-cta:hover {
+            background: #667eea;
+            color: #fff;
+        }
+        
+        /* Hero 区域 */
+        .hero {
+            padding: 160px 60px 100px;
+            text-align: center;
+            background: linear-gradient(180deg, #0f1419 0%, #1a1f2e 100%);
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 32px;
+        }
+        
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            color: rgba(255,255,255,0.6);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 功能区域 */
+        .features {
+            padding: 100px 60px;
+            background: #0f1419;
+        }
+        
+        .features-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .features-header h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .features-header p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .feature-card p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+        }
+        
+        /* CTA 区域 */
+        .cta-section {
+            padding: 120px 60px;
+            text-align: center;
+            background: linear-gradient(180deg, #1a1f2e 0%, #0f1419 100%);
+        }
+        
+        .cta-section h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 40px;
+        }
+        
+        /* 页脚 */
+        .footer {
+            padding: 60px;
+            background: #0a0d12;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+        }
+        
+        .footer-brand {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .footer-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.6;
+        }
+        
+        .footer h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255,255,255,0.3);
+        }
+        
+        /* 响应式 */
+        @media (max-width: 968px) {
+            .navbar {
+                padding: 16px 24px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 120px 24px 80px;
+            }
+            
+            .hero h1 {
+                font-size: 40px;
+            }
+            
+            .features {
+                padding: 80px 24px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">🚀</div>
+            <span>AI Workspace</span>
+        </div>
+        <div class="nav-links">
+            <a href="#features">功能</a>
+            <a href="#pricing">定价</a>
+            <a href="#docs">文档</a>
+            <a href="#about">关于</a>
+        </div>
+        <a href="#start" class="nav-cta">开始使用</a>
+    </nav>
+    
+    <!-- Hero 区域 -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span>✨</span>
+            <span>全新 AI 工作方式</span>
+        </div>
+        <h1>用 AI 重新定义<br>你的工作流</h1>
+        <p class="hero-subtitle">智能自动化平台，让 AI 成为你的得力助手。无需编程，轻松构建专属 AI 工作空间。</p>
+        <div class="hero-cta">
+            <a href="#" class="btn-primary">免费开始</a>
+            <a href="#" class="btn-secondary">观看演示</a>
+        </div>
+    </section>
+    
+    <!-- 功能区域 -->
+    <section class="features" id="features">
+        <div class="features-header">
+            <h2>强大功能，简单使用</h2>
+            <p>一切你需要的功能，我们都为你准备好了</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>智能 Agent</h3>
+                <p>创建专属 AI 助手，自动处理日常任务，7×24 小时不间断工作</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>极速响应</h3>
+                <p>毫秒级响应速度，让 AI 像真人一样流畅对话，提升工作效率</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>安全可靠</h3>
+                <p>企业级安全保障，数据加密存储，隐私保护无忧</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA 区域 -->
+    <section class="cta-section">
+        <h2>准备好开始了吗？</h2>
+        <p>加入数千名用户，体验 AI 带来的效率革命</p>
+        <a href="#" class="btn-primary">立即免费试用</a>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">🚀 AI Workspace</div>
+                <p class="footer-desc">下一代智能工作平台，让 AI 为你工作。</p>
+            </div>
+            <div>
+                <h4>产品</h4>
+                <ul class="footer-links">
+                    <li><a href="#">功能</a></li>
+                    <li><a href="#">定价</a></li>
+                    <li><a href="#">集成</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>资源</h4>
+                <ul class="footer-links">
+                    <li><a href="#">文档</a></li>
+                    <li><a href="#">API</a></li>
+                    <li><a href="#">博客</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>公司</h4>
+                <ul class="footer-links">
+                    <li><a href="#">关于</a></li>
+                    <li><a href="#">联系</a></li>
+                    <li><a href="#">隐私</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 AI Workspace. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>
